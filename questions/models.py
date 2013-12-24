@@ -1,8 +1,8 @@
 from django.db import models
 
 # Create your models here.
-class QuestionSet(models.Model):
-  set_name = models.CharField(max_length=50, unique=True)
+class QuestionProject(models.Model):
+  project_name = models.CharField(max_length=50, unique=True)
 
   def __str__(self):
     return self.set_name
@@ -24,7 +24,7 @@ class Question(models.Model):
 
 class Option(models.Model):
   question = models.ForeignKey(Question)
-  branch_id = models.ForeignKey(QuestionChain)
+  branch = models.ForeignKey(QuestionChain)
   text = models.CharField(max_length=50)
   display_text = models.CharField(max_length=10)
   highlight = models.CharField(max_length=2)
@@ -34,10 +34,10 @@ class Option(models.Model):
 
 class ChainToQuestion(models.Model):
   question = models.ForeignKey(Question)
-  chain_id = models.ForeignKey(QuestionChain)
+  chain = models.ForeignKey(QuestionChain)
   chain_index = models.IntegerField()
   
-class QuestionSetToChain(models.Model):
-  question_set = models.ForeignKey(QuestionSet)
+class QuestionProjectToChain(models.Model):
+  question_set = models.ForeignKey(QuestionProject)
   question_chain = models.ForeignKey(QuestionChain)
   stack_index = models.IntegerField()

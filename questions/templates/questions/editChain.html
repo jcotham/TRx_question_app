@@ -1,2 +1,42 @@
-{{ set_index }}
-{{ chain_index }}
+<h1>Edit Chain</h1><br>
+
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+ <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+ <!---<script src="../jquery.sortable.js"></script> -->
+ {% load staticfiles %}
+
+  <form action="addQuestion/" method="get"> {% csrf_token %}
+    <input type="submit" value="add question" />
+  </form>
+
+ <script src="{% static "TRx_question_app/jquery.sortable.min.js" %}"></script>
+ <div style="width: 200px;height: 100px; overflow-y:scroll;">
+   <table border="2">
+    <tr>
+      <td>
+        <ul class="sortable" id="stack" style="list-style:none">
+            <li>Item 1
+            <li>Item 2
+            <li>Item 3
+            <li>Item 4
+            <li>
+        </ul>
+      </td>
+      <td>
+        <ul class="sortable" id="non-stack" style="list-style:none">
+            <li>Item 5
+            <li>Item 6
+            <li>Item 7
+            <li>Item 8
+            <li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+<script>
+    $('#stack, #non-stack').sortable({ connectWith: '.connected' });
+</script>
+
+
+

@@ -1,6 +1,4 @@
-<h1>Edit Page</h1><br>
-{{ project_name }}
-{{ index }}
+<h1>Edit Project</h1><br>
 
  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -9,11 +7,11 @@
 
   <form action="addChain/" method="post"> {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Submit" />
+    <input type="submit" value="add chain" />
   </form>
+  
 
  <script src="{% static "TRx_question_app/jquery.sortable.min.js" %}"></script>
- <button onclick="popupName()">Add Chain</button>
  <div style="width: 200px;height: 100px; overflow-y:scroll;">
    <table border="2">
     <tr>
@@ -38,17 +36,12 @@
     </tr>
   </table>
 </div>
+<form action="editChain/" method="post"> {% csrf_token %}
+  <input type="submit" value="edit chain" />
+</form>
 <script>
     $('#stack, #non-stack').sortable({ connectWith: '.connected' });
 </script>
 
-<script>
-  function popupName() {
-    var name;
-    var tmp = prompt("Please enter a name for the chain: ")
-    if (tmp !=null) {
-        $.post("/questions/addChain/", {chain_name:name})
-    }
-  }
-</script>
+
 
