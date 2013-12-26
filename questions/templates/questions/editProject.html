@@ -5,12 +5,13 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 		<script src="{% static "TRx_question_app/jquery.sortable.min.js" %}"></script>
-		<!---<script src="../jquery.sortable.js"></script> -->
+		<script src="{% static "questions/package_selection.js" %}"></script>
+		<!-- <script src="../jquery.sortable.js"></script> -->
 	</head>
 
 	<body>
 		<div class="dual_layout">
-      <h1>Edit Project: "{{ project_name }}"</h1>
+			<h1>Edit Project: "{{ project_name }}"</h1>
 
 			<form action="addChain/" method="post"> {% csrf_token %}
 				{{ form }}
@@ -23,43 +24,38 @@
       Not sure why li elements are so far to the right
       -->
 			<div class="pane_holder">
-				<table>
-					<tr>
-						<td>
-							<ul class="sortable" id="stack" style="list-style:none">
-              {% for chain in used_chains %}
-                <li>{{ chain.chain_name }}
-              {% endfor %}
-              <li>NOTANACTUALENTRY
-							</ul>
-						</td>
+				<div class="pane_entry">
+					<ul class="sortable" id="stack" style="list-style:none">
+						{% for chain in used_chains %}
+						<li onclick="update_selected(this);" chain_id="{{ chain.id }}">{{ chain.chain_name }}
+						{% endfor %}
+						<li>NOTANACTUALENTRY
+					</ul>
+				</div>
 
-						<td>
-							<ul class="sortable" id="non-stack" style="list-style:none">
-              {% for chain in unused_chains %}
-                <li>{{ chain.chain_name }}
-              {% endfor %}
-                <li>NOTANACTUALENTRY
-							</ul>
-						</td>
-					</tr>
-				</table>
+				<div class="pane_entry">
+					<ul class="sortable" id="non-stack" style="list-style:none">
+						{% for chain in unused_chains %}
+						<li onclick="update_selected(this);" chain_id="{{ chain.id }}">{{ chain.chain_name }}
+						{% endfor %}
+						<li>NOTANACTUALENTRY
+					</ul>
+				</div>
 			</div>
 
-      <!--
-      NOT Implemented yet!
-      Make sure to save project anytime you edit an existing chain or add a new chain
-      -->
-			<form action="editChain/" method="post" style="display: inline"> {% csrf_token %}
-				<input type="submit" value="save project" />
-			</form>
+      <!-- Make sure to save project anytime you edit an existing chain or add a new chain -->
+	  <!-- Should we include csrf_token if we don't change pages, like in the following form? -->
+	  <form onsubmit="save_order('/questions/saveProject/{{ project_index }}'); return false;" style="display: inline">
+		  <input type="submit" value="save project" />
+	  </form>
 
-			<form action="editChain/" method="post" style="display: inline"> {% csrf_token %}
-				<input type="submit" value="edit chain" />
-			</form>
+	  <form onsubmit="save_order('/questions/saveProject/{{ project_index }}'); return redirect_to_edit_page('editChain/', this);" action="" method="get" style="display: inline"> {% csrf_token %}
+		  <input type="submit" value="edit chain" />
+	  </form>
 
-			<script> $('#stack, #non-stack').sortable({ connectWith: '.connected' }); </script>
-		</div>
-	</body>
+	  <script> $('#stack, #non-stack').sortable({ connectWith: '.connected' }); </script>
+  </div>
+
+  </body>
 </html>
 

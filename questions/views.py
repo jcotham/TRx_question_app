@@ -115,8 +115,8 @@ def editChain(request,project_index,chain_index):
   return render(request, 'questions/editChain.html', { "project_index": project_index, "chain_index" : chain_index })
 
 
-def editQuestion(request,chain_index,project_index):
-  return render(request, 'questions/editQuestion.html', { "project_index": project_index, "chain_index" : chain_index, "form":NewQuestionForm() })
+def editQuestion(request,chain_index,project_index,question_index):
+    return render(request, 'questions/editQuestion.html', { "project_index":project_index, "chain_index":chain_index, "question_index":question_index, "form":NewQuestionForm() })
 
 def editOptions(request,chain_index,project_index,question_index):
   return render(request, 'questions/editOptions.html', { "project_index": project_index, "chain_index": chain_index, "question_index": question_index })
