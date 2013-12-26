@@ -5,6 +5,7 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 		<script src="{% static "TRx_question_app/jquery.sortable.min.js" %}"></script>
+		<script src="{% static "questions/setup_ajax.js" %}"></script>
 		<script src="{% static "questions/package_selection.js" %}"></script>
 		<!-- <script src="../jquery.sortable.js"></script> -->
 	</head>
@@ -45,11 +46,11 @@
 
       <!-- Make sure to save project anytime you edit an existing chain or add a new chain -->
 	  <!-- Should we include csrf_token if we don't change pages, like in the following form? -->
-	  <form onsubmit="save_order('/questions/saveProject/{{ project_index }}'); return false;" style="display: inline">
+	  <form onsubmit="save_order('/questions/saveProject/{{ project_index }}/'); return false;" style="display: inline">
 		  <input type="submit" value="save project" />
 	  </form>
 
-	  <form onsubmit="save_order('/questions/saveProject/{{ project_index }}'); return redirect_to_edit_page('editChain/', this);" action="" method="get" style="display: inline"> {% csrf_token %}
+	  <form onsubmit="save_order('/questions/saveProject/{{ project_index }}/'); return redirect_to_edit_page('editChain/', this);" action="" method="get" style="display: inline"> {% csrf_token %}
 		  <input type="submit" value="edit chain" />
 	  </form>
 

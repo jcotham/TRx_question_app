@@ -89,6 +89,17 @@ def addOptions(request, question_index, chain_index, project_index):
   })
 
 
+# Not finished. Receiving a list of (hopefully) sorted
+# question_chain ids that should be saved to the project_index
+def saveProject(request, project_index):
+  project_ids = request.POST.getlist('used_ids[]')
+  for p in project_ids:
+    print(p)
+
+  return HttpResponse('')
+
+
+
 
 def editProject(request,project_index):
   dict = {}

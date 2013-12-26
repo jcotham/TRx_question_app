@@ -1,26 +1,34 @@
 
 var currently_selected_item;
 
-// Should have worked, but would have required programmer to make sure this function is always called
+
+// Should be executed anytime user navigates away from page
+// and wishes their changes should be saved
 function save_order(target_url) {
-	used_ids = []
+	var used_ids = []
+
+
+	// is the following definitely in the right order?
+	// maybe not, because of javascript asynchronous functions.
+	// Is there an each method for only the first match?
+	// Or some method that implies only one match exists?
 	$('#stack li').each(function(i){
 		if ($(this).attr('chain_id') !== undefined) {
 			used_ids.push( $(this).attr('chain_id') )
-//			console.log($(this).attr('chain_id'))
 		}
 	});
 
-	dict = {"used_ids": used_ids}
-//	console.log(target_url)
+	// Couldn't get the following to work. Should have
+	// been sorted, though.
+//	user_ids = $('#stack').sortable('serialize')
 
-	/*
+	var dict = {"used_ids": used_ids}
+
 	$.ajax({
-		data: used_ids,
+		data: dict,
 		type: 'POST',
 		url: target_url,
 	});
-	*/
 
 	return false; // to prevent page redirection
 }
