@@ -41,3 +41,4 @@ class QuestionProjectToChain(models.Model):
   question_set = models.ForeignKey(QuestionProject)
   question_chain = models.ForeignKey(QuestionChain)
   stack_index = models.IntegerField()
+

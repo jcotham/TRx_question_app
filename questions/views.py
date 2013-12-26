@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
-from questions.models import QuestionProject, QuestionChain, Question, Option
+from questions.models import QuestionProject, QuestionChain, Question, Option, QuestionProjectToChain
 
 # Create your views here.
 def home(request):
@@ -95,10 +95,25 @@ def editProject(request,project_index):
   dict["project_index"] = project_index
   dict["project_name"] = QuestionProject.objects.get(id=project_index).project_name
   dict["form"] = NewChainForm()
+
+  # Want used_chains to contains the question_chains that are used in the current project
+  # and ununsed_chains to contain every other question_chain
+  # used_qc_ids is a list of question_chain objects that relate to the matching QuestionProjectToChain entries
+  qp_to_chain = QuestionProjectToChain.objects.all().filter(question_set=project_index)
+  used_qc_ids = [e.question_chain for e in qp_to_chain]
+  question_chains = QuestionChain.objects.all()
+
+  # The idea is to sort the chains currently in use in the project by stack index. Untested as of yet
+  dict["used_chains"] = sorted([e for e in question_chains if e.id in used_qc_ids],
+      key=lambda k: [f for f in qp_to_chain if f["question_set"] == k["id"]][0].stack_index)
+  dict["unused_chains"] = sorted(list(set(question_chains)-set(dict["used_chains"])), key=lambda k: k.chain_name) # alphabetical
+
   return render(request, 'questions/editProject.html', dict)
+
 
 def editChain(request,project_index,chain_index):
   return render(request, 'questions/editChain.html', { "project_index": project_index, "chain_index" : chain_index })
+
 
 def editQuestion(request,chain_index,project_index):
   return render(request, 'questions/editQuestion.html', { "project_index": project_index, "chain_index" : chain_index, "form":NewQuestionForm() })

@@ -2,47 +2,53 @@
 
 
 .dual_layout {
-	text-align:center;
-	height:95%;
+    text-align:center;
+    height:95%;
 }
 
 
 .pane_holder {
-	width: 80%;
-	height: 60%;
-	overflow-y:scroll;
-	margin:0 auto;
-	border: 1px solid black;
+    width: 90%;
+    height: 60%;
+    overflow-y: scroll;
+    margin: 0 auto;
+    border: 1px solid black;
 }
 
 
 .pane_holder table {
-	width: 100%;
-	margin:0 auto;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.pane_holder table td {
+    width: 50%;
+    border: 2px solid black;
 }
 
 .sortable li {
-	background: grey;
-	padding: 2px;
-	margin: 5px;
-	border: 0px;
-	border-radius: 8px;
+    background: grey;
+    padding: 2px;
+    margin: 5px;
+    border: 0px;
+    border-radius: 8px;
+    text-align: left;
 }
 
 
 
 .html_list {
-	text-align: center;
+    text-align: center;
 }
 
 .html_list ul {
-	list-style: none;
-	width: 80%;
-	height: 80%;
-	margin: 0px auto;
-	text-align: center;
-	overflow-y: scroll;
-	border: 1px solid black;
+    list-style: none;
+    width: 80%;
+    height: 80%;
+    margin: 0px auto;
+    text-align: center;
+    overflow-y: scroll;
+    border: 1px solid black;
 }
 
 
@@ -51,5 +57,5 @@ border:1px solid black;
 width:1000px;
 margin:20px auto;
 text-align:left;
-*/
+ */
 

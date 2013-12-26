@@ -19,76 +19,42 @@
 			</form>
 
 
+      <!--
+      Not sure why li elements are so far to the right
+      -->
 			<div class="pane_holder">
 				<table>
 					<tr>
 						<td>
 							<ul class="sortable" id="stack" style="list-style:none">
-								<li>Item 1
-								<li>Item 2
-								<li>Item 3
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 1
-								<li>Item 2
-								<li>Item 3
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
-								<li>Item 4
+              {% for chain in used_chains %}
+                <li>{{ chain.chain_name }}
+              {% endfor %}
+              <li>NOTANACTUALENTRY
 							</ul>
 						</td>
+
 						<td>
 							<ul class="sortable" id="non-stack" style="list-style:none">
-								<li>Item 5
-								<li>Item 6
-								<li>Item 7
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 5
-								<li>Item 6
-								<li>Item 7
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
-								<li>Item 8
+              {% for chain in unused_chains %}
+                <li>{{ chain.chain_name }}
+              {% endfor %}
+                <li>NOTANACTUALENTRY
 							</ul>
 						</td>
 					</tr>
 				</table>
 			</div>
 
-			<form action="editChain/" method="post"> {% csrf_token %}
+      <!--
+      NOT Implemented yet!
+      Make sure to save project anytime you edit an existing chain or add a new chain
+      -->
+			<form action="editChain/" method="post" style="display: inline"> {% csrf_token %}
+				<input type="submit" value="save project" />
+			</form>
+
+			<form action="editChain/" method="post" style="display: inline"> {% csrf_token %}
 				<input type="submit" value="edit chain" />
 			</form>
 
@@ -96,3 +62,4 @@
 		</div>
 	</body>
 </html>
+
