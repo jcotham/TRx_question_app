@@ -1,0 +1,40 @@
+/* traditional box model */
+
+
+.dual_layout {
+	text-align:center;
+	height:95%;
+}
+
+
+.pane_holder {
+	width: 80%;
+	height: 60%;
+	overflow-y:scroll;
+	margin:0 auto;
+}
+
+
+.pane_holder table {
+	border: 2px solid black;
+	width: 100%;
+	margin:0 auto;
+}
+
+.sortable li {
+	background: grey;
+	padding: 2px;
+	margin: 5px;
+	border: 0px;
+	border-radius: 8px;
+}
+
+
+
+/*
+border:1px solid black;
+width:1000px;
+margin:20px auto;
+text-align:left;
+*/
+

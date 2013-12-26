@@ -1,47 +1,98 @@
-<h1>Edit Project</h1><br>
+<html>
+	<head>
+		{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static "TRx_question_app/dual_pane.css" %}" />
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+		<script src="{% static "TRx_question_app/jquery.sortable.min.js" %}"></script>
+		<!---<script src="../jquery.sortable.js"></script> -->
+	</head>
 
- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
- <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
- <!---<script src="../jquery.sortable.js"></script> -->
- {% load staticfiles %}
+	<body>
+		<div class="dual_layout">
+			<h1>Edit Project</h1><br>
 
-  <form action="addChain/" method="post"> {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="add chain" />
-  </form>
-  
-
- <script src="{% static "TRx_question_app/jquery.sortable.min.js" %}"></script>
- <div style="width: 200px;height: 100px; overflow-y:scroll;">
-   <table border="2">
-    <tr>
-      <td>
-        <ul class="sortable" id="stack" style="list-style:none">
-            <li>Item 1
-            <li>Item 2
-            <li>Item 3
-            <li>Item 4
-            <li>
-        </ul>
-      </td>
-      <td>
-        <ul class="sortable" id="non-stack" style="list-style:none">
-            <li>Item 5
-            <li>Item 6
-            <li>Item 7
-            <li>Item 8
-            <li>
-        </ul>
-      </td>
-    </tr>
-  </table>
-</div>
-<form action="editChain/" method="post"> {% csrf_token %}
-  <input type="submit" value="edit chain" />
-</form>
-<script>
-    $('#stack, #non-stack').sortable({ connectWith: '.connected' });
-</script>
+			<form action="addChain/" method="post"> {% csrf_token %}
+				{{ form }}
+				<!-- {{ form.as_p }} -->
+				<input type="submit" value="add chain" />
+			</form>
 
 
+			<div class="pane_holder">
+				<table>
+					<tr>
+						<td>
+							<ul class="sortable" id="stack" style="list-style:none">
+								<li>Item 1
+								<li>Item 2
+								<li>Item 3
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 1
+								<li>Item 2
+								<li>Item 3
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+								<li>Item 4
+							</ul>
+						</td>
+						<td>
+							<ul class="sortable" id="non-stack" style="list-style:none">
+								<li>Item 5
+								<li>Item 6
+								<li>Item 7
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 5
+								<li>Item 6
+								<li>Item 7
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+								<li>Item 8
+							</ul>
+						</td>
+					</tr>
+				</table>
+			</div>
 
+			<form action="editChain/" method="post"> {% csrf_token %}
+				<input type="submit" value="edit chain" />
+			</form>
+
+			<script> $('#stack, #non-stack').sortable({ connectWith: '.connected' }); </script>
+		</div>
+	</body>
+</html>
