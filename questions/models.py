@@ -36,7 +36,7 @@ class ChainToQuestion(models.Model):
   question = models.ForeignKey(Question)
   chain = models.ForeignKey(QuestionChain)
   chain_index = models.IntegerField()
-  
+
 class QuestionProjectToChain(models.Model):
   question_set = models.ForeignKey(QuestionProject)
   question_chain = models.ForeignKey(QuestionChain)

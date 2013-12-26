@@ -91,8 +91,11 @@ def addOptions(request, question_index, chain_index, project_index):
 
 
 def editProject(request,project_index):
-  dic = {"project_index":project_index, "form": NewChainForm()}
-  return render(request, 'questions/editProject.html', dic)
+  dict = {}
+  dict["project_index"] = project_index
+  dict["project_name"] = QuestionProject.objects.get(id=project_index).project_name
+  dict["form"] = NewChainForm()
+  return render(request, 'questions/editProject.html', dict)
 
 def editChain(request,project_index,chain_index):
   return render(request, 'questions/editChain.html', { "project_index": project_index, "chain_index" : chain_index })

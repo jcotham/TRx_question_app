@@ -10,7 +10,7 @@
 
 	<body>
 		<div class="dual_layout">
-			<h1>Edit Project</h1><br>
+      <h1>Edit Project: "{{ project_name }}"</h1>
 
 			<form action="addChain/" method="post"> {% csrf_token %}
 				{{ form }}
