@@ -1,0 +1,18 @@
+<head>
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static "TRx_question_app/dual_pane.css" %}" />
+</head>
+
+<body>
+	<div class="html_list">
+		<h1>Select Chain</h1>
+
+		<div>
+			<ul class="sortable">
+				{% for project in projects %}
+					<li><a href="/questions/editProject/{{ project.id }}">{{ project.project_name }}</a>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</body>

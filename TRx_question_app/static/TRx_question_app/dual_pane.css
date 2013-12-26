@@ -12,11 +12,11 @@
 	height: 60%;
 	overflow-y:scroll;
 	margin:0 auto;
+	border: 1px solid black;
 }
 
 
 .pane_holder table {
-	border: 2px solid black;
 	width: 100%;
 	margin:0 auto;
 }
@@ -29,6 +29,21 @@
 	border-radius: 8px;
 }
 
+
+
+.html_list {
+	text-align: center;
+}
+
+.html_list ul {
+	list-style: none;
+	width: 80%;
+	height: 80%;
+	margin: 0px auto;
+	text-align: center;
+	overflow-y: scroll;
+	border: 1px solid black;
+}
 
 
 /*

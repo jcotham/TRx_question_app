@@ -66,7 +66,7 @@ def addQuestion(request, chain_index, project_index):
       q.save()
 
       #redirect to options page unless fill in the blank
-      if (ques_type == "fib"): 
+      if (ques_type == "fib"):
         return HttpResponseRedirect("/questions/editProject/%s/editChain/%s/" % (project_index, chain_index))
       return HttpResponseRedirect("/questions/editProject/%s/editChain/%s/editQuestion/%s/addOptions" % (project_index, chain_index, q.id))
 
@@ -118,7 +118,9 @@ def add(request):
   })
 
 def chain(request):
-  return render(request, 'questions/chain.html')
+  context = {}
+  context["projects"] = QuestionProject.objects.all()
+  return render(request, 'questions/chain.html', context)
 
 class NewProjectForm(forms.Form):
   name = forms.CharField(max_length=100)
