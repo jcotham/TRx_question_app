@@ -96,6 +96,14 @@ def saveProject(request, project_index):
   for p in project_ids:
     print(p)
 
+  # [delete all entries in table corresponding to project_index]
+  # index = 0
+  # for p in project_ids:
+  #   qp_to_qc["question_set"] = project_index
+  #   qp_to_qc["question_chain"] = p
+  #   qp_to_qc["stack_index"] = index
+  #   index+=1
+
   return HttpResponse('')
 
 
