@@ -92,24 +92,27 @@ def addOptions(request, question_index, chain_index, project_index):
 # Not finished. Receiving a list of (hopefully) sorted
 # question_chain ids that should be saved to the project_index
 def saveProject(request, project_index):
+  project_index = int(project_index)
   project_ids = request.POST.getlist('used_ids[]')
-  for p in project_ids:
-    print(p)
+#  for p in project_ids: print(p)
 
-  # [delete all entries in table corresponding to project_index]
-  # index = 0
-  # for p in project_ids:
-  #   qp_to_qc["question_set"] = project_index
-  #   qp_to_qc["question_chain"] = p
-  #   qp_to_qc["stack_index"] = index
-  #   index+=1
+  QuestionProjectToChain.objects.filter(question_set=project_index).delete()
+  for i,p in enumerate(project_ids):
+    p = int(p)
+    print(project_index, p, i)
+    try:
+      qp_to_qc = QuestionProjectToChain(question_set_id=project_index, question_chain_id=p, stack_index=i)
+    except Exception as e:
+      print(e)
+    qp_to_qc.save()
 
   return HttpResponse('')
 
 
 
-
+# TODO: Works, but hackish. Fix up later, when know how.
 def editProject(request,project_index):
+  project_index = int(project_index)
   dict = {}
   dict["project_index"] = project_index
   dict["project_name"] = QuestionProject.objects.get(id=project_index).project_name
@@ -119,12 +122,16 @@ def editProject(request,project_index):
   # and ununsed_chains to contain every other question_chain
   # used_qc_ids is a list of question_chain objects that relate to the matching QuestionProjectToChain entries
   qp_to_chain = QuestionProjectToChain.objects.all().filter(question_set=project_index)
-  used_qc_ids = [e.question_chain for e in qp_to_chain]
+
+  used_qc_ids = [e.question_chain_id for e in qp_to_chain]
+
+  for e in used_qc_ids: print e
+
   question_chains = QuestionChain.objects.all()
 
   # The idea is to sort the chains currently in use in the project by stack index. Untested as of yet
   dict["used_chains"] = sorted([e for e in question_chains if e.id in used_qc_ids],
-      key=lambda k: [f for f in qp_to_chain if f["question_set"] == k["id"]][0].stack_index)
+      key=lambda k: [f for f in qp_to_chain if f.question_chain_id == k.id][0].stack_index)
   dict["unused_chains"] = sorted(list(set(question_chains)-set(dict["used_chains"])), key=lambda k: k.chain_name) # alphabetical
 
   return render(request, 'questions/editProject.html', dict)
