@@ -16,6 +16,7 @@ urlpatterns = patterns('',
 
     #chain
     url(r'^editProject/(?P<project_index>\d+)/addChain/$', views.addChain, name='addChain'),
+    url(r'^saveChain/(?P<chain_index>\d+)/$', views.saveChain, name='saveChain'),
     url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/$', views.editChain, name='editChain'),
 
     #question

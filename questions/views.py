@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from django.forms.formsets import formset_factory
-from questions.models import QuestionProject, QuestionChain, Question, Option, QuestionProjectToChain
+from questions.models import QuestionProject, QuestionChain, Question, Option, QuestionProjectToChain, ChainToQuestion
 
 # Create your views here.
 def home(request):
@@ -115,6 +115,22 @@ def saveProject(request, project_index):
   return HttpResponse('')
 
 
+def saveChain(request, chain_index):
+  chain_index = int(chain_index)
+  chain_ids = request.POST.getlist('used_ids[]')
+  print(str(chain_ids) + "testing")
+  ChainToQuestion.objects.filter(chain=chain_index).delete()
+  for i,p in enumerate(chain_ids):
+    p = int(p)
+    #print(chain_index, p, i)
+    try:
+      qc_to_q = ChainToQuestion(chain_id=chain_index, question_id=p, chain_index=i)
+    except Exception as e:
+      print(e)
+    qc_to_q.save()
+
+  return HttpResponse('')
+
 
 # TODO: Works, but hackish. Fix up later, when know how.
 def editProject(request,project_index):
@@ -144,8 +160,21 @@ def editProject(request,project_index):
 
 
 def editChain(request,project_index,chain_index):
-  return render(request, 'questions/editChain.html', { "project_index": project_index, "chain_index" : chain_index })
+  chain_index = int(chain_index)
+  dict = {}
+  dict["chain_index"] = chain_index
+  dict["chain_name"] = QuestionChain.objects.get(id=chain_index).chain_name
 
+  chain_to_q = ChainToQuestion.objects.all().filter(chain=chain_index)
+  used_question_ids = [e.question_id for e in chain_to_q]
+
+  questions = Question.objects.all()
+
+  dict["used_questions"] = sorted([e for e in questions if e.id in used_question_ids],
+      key=lambda k: [f for f in chain_to_q if f.question_id == k.id][0].chain_index)
+  dict["unused_questions"] = sorted(list(set(questions)-set(dict["used_questions"])), key=lambda k: k.display_group) 
+
+  return render(request, 'questions/editChain.html', dict)
 
 def editQuestion(request,chain_index,project_index,question_index):
     return render(request, 'questions/editQuestion.html', { "project_index":project_index, "chain_index":chain_index, "question_index":question_index, "form":NewQuestionForm() })

@@ -33,8 +33,8 @@ class Option(models.Model):
     return self.text
 
 class ChainToQuestion(models.Model):
-  question = models.ForeignKey(Question)
   chain = models.ForeignKey(QuestionChain)
+  question = models.ForeignKey(Question)
   chain_index = models.IntegerField()
 
 class QuestionProjectToChain(models.Model):

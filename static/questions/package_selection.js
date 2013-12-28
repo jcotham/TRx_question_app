@@ -4,7 +4,7 @@ var currently_selected_item;
 
 // Should be executed anytime user navigates away from page
 // and wishes their changes should be saved
-function save_order(target_url) {
+function save_order(target_url,target_id) {
 	var used_ids = []
 
 	// is the following definitely in the right order?
@@ -12,8 +12,8 @@ function save_order(target_url) {
 	// Is there an each method for only the first match?
 	// Or some method that implies only one match exists?
 	$('#stack li').each(function(j,i){
-		if ($(this).attr('chain_id') !== undefined) {
-                  used_ids[j] = $(this).attr('chain_id')
+		if ($(this).attr(target_id) !== undefined) {
+                  used_ids[j] = $(this).attr(target_id)
 		}
 	});
 
@@ -22,7 +22,6 @@ function save_order(target_url) {
 	//user_ids = $('#stack').sortable('serialize')
 
 	var dict = {"used_ids": used_ids}
-
 	$.ajax({
 		data: dict,
 		type: 'POST',
@@ -46,9 +45,9 @@ function update_selected(new_selected) {
 }
 
 
-function redirect_to_edit_page(target_url, form_source) {
+function redirect_to_edit_page(target_url, form_source, target_id) {
 	if (currently_selected_item !== undefined) {
-		form_source.action = target_url+(currently_selected_item.attributes["chain_id"].value)
+		form_source.action = target_url+(currently_selected_item.attributes[target_id].value)
 		console.log(form_source.action);
 		return true;
 	} else {
