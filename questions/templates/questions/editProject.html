@@ -26,20 +26,18 @@
       -->
 			<div class="pane_holder">
 				<div class="pane_entry">
-					<ul class="sortable" id="stack" style="list-style:none">
+					<ul class="sortable" id="stack" style="list-style:none;padding:10px;">
 						{% for chain in used_chains %}
 						<li onclick="update_selected(this);" chain_id="{{ chain.id }}">{{ chain.chain_name }}
 						{% endfor %}
-						<li>NOTANACTUALENTRY
 					</ul>
 				</div>
 
 				<div class="pane_entry">
-					<ul class="sortable" id="non-stack" style="list-style:none">
+					<ul class="sortable" id="non-stack" style="list-style:none;padding:10px;">
 						{% for chain in unused_chains %}
-						<li onclick="update_selected(this);" chain_id="{{ chain.id }}">{{ chain.chain_name }}
+                                                <li onclick="update_selected(this);" chain_id="{{ chain.id }}">{{ chain.chain_name }}
 						{% endfor %}
-						<li>NOTANACTUALENTRY
 					</ul>
 				</div>
 			</div>
@@ -54,7 +52,7 @@
 		  <input type="submit" value="edit chain" />
 	  </form>
 
-	  <script> $('#stack, #non-stack').sortable({ connectWith: '.connected' }); </script>
+	  <script> $('#stack, #non-stack').sortable({ connectWith: '.connected', dropOnEmpty: true }); </script>
   </div>
 
   </body>

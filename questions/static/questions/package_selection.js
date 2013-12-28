@@ -7,20 +7,19 @@ var currently_selected_item;
 function save_order(target_url) {
 	var used_ids = []
 
-
 	// is the following definitely in the right order?
 	// maybe not, because of javascript asynchronous functions.
 	// Is there an each method for only the first match?
 	// Or some method that implies only one match exists?
-	$('#stack li').each(function(i){
+	$('#stack li').each(function(j,i){
 		if ($(this).attr('chain_id') !== undefined) {
-			used_ids.push( $(this).attr('chain_id') )
+                  used_ids[j] = $(this).attr('chain_id')
 		}
 	});
 
 	// Couldn't get the following to work. Should have
 	// been sorted, though.
-//	user_ids = $('#stack').sortable('serialize')
+	//user_ids = $('#stack').sortable('serialize')
 
 	var dict = {"used_ids": used_ids}
 

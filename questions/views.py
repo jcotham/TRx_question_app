@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from django.forms.formsets import formset_factory
-from questions.models import QuestionProject, QuestionChain, Question, Option
+from questions.models import QuestionProject, QuestionChain, Question, Option, QuestionProjectToChain
 
 # Create your views here.
 def home(request):
@@ -131,7 +131,7 @@ def editProject(request,project_index):
 
   used_qc_ids = [e.question_chain_id for e in qp_to_chain]
 
-  for e in used_qc_ids: print e
+  #for e in used_qc_ids: print e
 
   question_chains = QuestionChain.objects.all()
 

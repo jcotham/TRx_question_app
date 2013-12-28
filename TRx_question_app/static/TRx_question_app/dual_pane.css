@@ -1,27 +1,23 @@
-/* traditional box model */
-
 
 .dual_layout {
     text-align:center;
     height:95%;
 }
 
-
 .pane_holder {
     width: 90%;
-    height: 20%;
+    height: 70%;
     margin: 0 auto;
     border: 1px solid black;
 }
 
-
 .pane_entry {
     width: 48%;
-	height: 95%;
-	overflow-y: scroll;
+    height: 95%;
+    overflow-y: scroll;
     border: 2px solid black;
-	float: left;
-	margin-left: 1%;
+    float: left;
+    margin-left: 1%;
 }
 
 .pane_holder table td div {
