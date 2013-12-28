@@ -1,30 +1,4 @@
-
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<title>Dynamic Forms in Django Example</title>
-
-<script type="text/javascript"
-src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js">
-</script>
-
-</head>
-<body>
-<h1>Dynamic Forms in Django Example</h1>
-<h2>Todo List</h2>
-<form action="" method="POST">{% csrf_token %}
-    <h2>Options</h2>
-    {% for form in formset.forms %}
-    <div class="item">
-      {{ form.as_p }}
-      <p style=""><a class="delete" href="#">Delete</a></p>
-    </div>
-    {% endfor %}
-    <p><a id="add" href="#">Add another item</a></p>
-    <input type="submit" value=" Submit " />
-</form>
-<script>
-  $(document).ready(function () {
+$(document).ready(function () {
     // Code adapted from http://djangosnippets.org/snippets/1389/  
     function updateElementIndex(el, prefix, ndx) {
         var id_regex = new RegExp('(' + prefix + '-\\d+-)');
@@ -98,8 +72,4 @@ src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js">
         return deleteForm(this, "form");
     });
 });
-</script>
-<!--<script src="addForm.js" type="text/javascript"></script>-->
-</body>
-</html>
 

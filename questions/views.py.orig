@@ -1,8 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
+<<<<<<< HEAD
+from questions.models import QuestionProject, QuestionChain, Question, Option, QuestionProjectToChain
+=======
 from django.forms.formsets import formset_factory
 from questions.models import QuestionProject, QuestionChain, Question, Option
+>>>>>>> trying to make options dynamic
 
 # Create your views here.
 def home(request):
