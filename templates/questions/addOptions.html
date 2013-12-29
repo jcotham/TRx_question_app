@@ -23,7 +23,7 @@ src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js">
     <p><a id="add" href="#">Add another item</a></p>
     <input type="submit" value=" Submit " />
 </form>
-<script>
+<script type="text/javascript">
   $(document).ready(function () {
     // Code adapted from http://djangosnippets.org/snippets/1389/  
     function updateElementIndex(el, prefix, ndx) {
@@ -58,8 +58,9 @@ src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js">
     }
 
     function addForm(btn, prefix) {
-        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        var formCount = parseInt($(prefix + '-TOTAL_FORMS').val());
         // You can only submit a maximum of 10 todo items 
+        console.log("formCount: " + formCount);
         if (formCount < 10) {
             // Clone a form (without event handlers) from the first form
             var row = $(".item:first").clone(false).get(0);

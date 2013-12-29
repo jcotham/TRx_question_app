@@ -53,10 +53,16 @@ def addChain(request, project_index):
     'form': form,
   })
 
+# also editQuestion
 def addQuestion(request, chain_index, project_index):
+  
+  NewOptionsFormset = formset_factory(NewOptionForm, max_num=15)
   if request.method == 'POST':
-    form = NewQuestionForm(request.POST)
-    if form.is_valid():
+    print(request.POST)
+    question_form = NewQuestionForm(request.POST)
+    options_formset = NewOptionsFormset(request.POST, request.FILES)
+
+    if question_form.is_valid() and options_formset.is_valid():
       ques_type = request.POST['question_type']
       ques_text = request.POST['question_text']
       disp_text  = request.POST['display_text']
@@ -65,6 +71,13 @@ def addQuestion(request, chain_index, project_index):
       q = Question(question_text = ques_text, question_type = ques_type,
                    display_text = disp_text, display_group = disp_group)
       q.save()
+      print("saving question...")
+
+      for form in options_formset.forms:
+        option = form.save(commit=False) #commit = false
+        option.question = q
+        option.save()
+        print("saving option: " + str(option.display_text) + " belongs to: " + str(option.question.id))
 
       #redirect to options page unless fill in the blank
       if (ques_type == "fib"):
@@ -72,9 +85,11 @@ def addQuestion(request, chain_index, project_index):
       return HttpResponseRedirect("/questions/editProject/%s/editChain/%s/editQuestion/%s/addOptions" % (project_index, chain_index, q.id))
 
   else:
-    form = NewQuestionForm()
+    question_form = NewQuestionForm()
+    options_formset = NewOptionsFormset()
   return render(request, 'questions/addQuestion.html', {
-    'form': form,
+    'question_form': question_form,
+    'options_formset': options_formset,
   })
 
 def addOptions(request, question_index, chain_index, project_index):
@@ -177,6 +192,7 @@ def editChain(request,project_index,chain_index):
   return render(request, 'questions/editChain.html', dict)
 
 def editQuestion(request,chain_index,project_index,question_index):
+  #form = NewQuestionForm({ 
     return render(request, 'questions/editQuestion.html', { "project_index":project_index, "chain_index":chain_index, "question_index":question_index, "form":NewQuestionForm() })
 
 def editOptions(request,chain_index,project_index,question_index):
@@ -211,8 +227,12 @@ class NewQuestionForm(forms.Form):
   display_group = forms.CharField(max_length=30, required=True)
   question_type = forms.ChoiceField(choices=[('fib','fill-in-the-blank'),
     ('yn','yes/no'),('cb','check box'),('cbb','check box with blank')])
-class NewOptionForm(forms.Form):
+#class NewOptionForm(forms.Form):
   #add branching somehow
-  text = forms.CharField(max_length=50)
-  display_text = forms.CharField(max_length=10)
-  highlight = forms.CharField(max_length=2)
+#  text = forms.CharField(max_length=50)
+#  display_text = forms.CharField(max_length=10)
+#  highlight = forms.CharField(max_length=2)
+class NewOptionForm(forms.ModelForm):
+  class Meta:
+    model = Option
+    exclude = ['question']

@@ -2,6 +2,120 @@
 <!-- form for adding new project -->
 
 <form action="" method="post">{% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Submit" />
+  <div class="question">
+    {{ question_form.as_p }}
+  </div>
+  {{ options_formset.management_form }}
+
+  <div id="super_option">
+    {% for option in options_formset.forms %}
+    <div class="option" style="background-color:grey;margin:10px">
+      {{ option.as_p }}
+      <p style=""><a class="delete" href="#">Delete</a></p>
+    </div>
+    {% endfor %}
+
+  </div>
+
+  <p><a id="add" href="#">Add another item</a></p>
+  <input type="submit" value="Submit" id="submit" />
 </form>
+
+<script type="text/javascript"
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js">
+</script>
+<script>
+$(document).ready(function() {
+  base_form = $('.option').clone()
+  $(':input', base_form).each(function() {
+    var type = this.type;
+    if (type == 'text') {
+      this.value = "";
+    }
+  })
+
+
+  total_form_count = 0
+  $('.option').each(function(d){ total_form_count+=1; });
+
+
+  function delete_callback() {
+    $(this).parents('.option').remove()
+    //$(this).remove()
+    return false;
+  }
+
+  /*
+  function jsonify_forms() {
+    var return_json = []
+    $(".option").each(function(i,e) {
+      $(e, ':input').each(function(i2,e2,i,e) {
+        return_json[
+      }(i,e)
+    })
+    console.log(return_json.length)
+    return return_json; // to_json? Or fine as is?
+  }
+  */
+
+  $('#submit').click(function() {
+    $('.option').each(function(i,e) {
+      // Buggy boo
+      $(e, ':p:input').each(function(i,e){
+        if ($(e).attr('for')) $(e).attr("for").replace(/d+/, toString(5))
+        if ($(e).attr('id')) $(e).attr("id").replace(/d+/, toString(5))
+        if ($(e).attr('name')) $(e).attr("name").replace(/d+/, toString(5))
+        console.log( ($(e).attr('id')) )
+      });
+
+      /*$(e, ':input').each((function(i2,e,i){
+        if ($(e).attr('for')) $(e).attr("for").replace(/d+/, toString(i))
+        if ($(e).attr('id')) $(e).attr("id").replace(/d+/, toString(i))
+        if ($(e).attr('name')) $(e).attr("name").replace(/d+/, toString(i))
+        console.log("whoopie");
+      })(i));*/
+    });
+
+    // Error checking here. Return false and make error pop up if something's hanky
+    return true;
+  });
+
+
+  //$('#id_question_type').change(function() {
+  $('.delete').click(delete_callback);
+
+  $('#add').click(function() {
+    type = $('#id_question_type').value;
+
+    if (type != "fib") {
+      form = $(base_form).clone()
+      $(form).find('.delete').click(delete_callback)
+
+      form.appendTo("#super_option")
+
+      $(form).children().children().each(function() {
+        updateElementIndex(this, 'form', total_form_count)
+        $(this).val("");
+      });
+      
+      $("#id_" + 'form' + "-TOTAL_FORMS").val(total_form_count + 1);
+
+      total_form_count += 1
+    }
+    return false;
+  });
+
+
+  function updateElementIndex(el, prefix, i) {
+    console.log("updating")
+    var id_regex = new RegExp(prefix + '-\\d+-');
+    var replacement = prefix + '-' + i + '-';
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+  }
+
+
+});
+</script>
+
