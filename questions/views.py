@@ -5,8 +5,21 @@ from django.forms.formsets import formset_factory
 from questions.models import QuestionProject, QuestionChain, Question, Option, QuestionProjectToChain, ChainToQuestion
 
 # Create your views here.
-def home(request):
-  return render(request, 'questions/home.html')
+def projectHome(request):
+  context = {}
+  if request.method == 'POST':
+    form = NewProjectForm(request.POST)
+    if form.is_valid():
+      name = request.POST['name']
+      qp = QuestionProject(project_name=name)
+      qp.save()
+
+  context["projects"] = QuestionProject.objects.all()
+  context["form"] = NewProjectForm()
+  return render(request, 'questions/projectHome.html', context)
+
+
+
 
 #pages seen from Home
 def index(request):
@@ -198,36 +211,17 @@ def editQuestion(request,chain_index,project_index,question_index):
 def editOptions(request,chain_index,project_index,question_index):
   return render(request, 'questions/editOptions.html', { "project_index": project_index, "chain_index": chain_index, "question_index": question_index })
 
-def add(request):
-  if request.method == 'POST': # If the form has been submitted...
-    form = NewProjectForm(request.POST) # A form bound to the POST data
-    if form.is_valid(): # All validation rules pass
-      name = request.POST['name']
-      qs = QuestionProject(project_name=name)
-      qs.save()
-      return HttpResponseRedirect("/questions/editProject/%s/" % qs.id)#check if worked
-  else:
-    form = NewProjectForm() # An unbound form
-  return render(request, 'questions/add.html', {
-    'form': form,
-  })
-
-def chain(request):
-  context = {}
-  context["projects"] = QuestionProject.objects.all()
-  return render(request, 'questions/chain.html', context)
-
 
 ###################################  Delete Methods ##################################
 
 def deleteProject(request, project_index):
   project = QuestionProject.objects.get(id = project_index)
   project.delete()
-  return render(request, 'questions/chain.html')
+  return projectHome(request)
   
 
 
-####################  Forms          ####################
+###################################  Forms          ##################################
 
 class NewProjectForm(forms.Form):
   name = forms.CharField(max_length=100)
@@ -239,11 +233,6 @@ class NewQuestionForm(forms.Form):
   display_group = forms.CharField(max_length=30, required=True)
   question_type = forms.ChoiceField(choices=[('fib','fill-in-the-blank'),
     ('yn','yes/no'),('cb','check box'),('cbb','check box with blank')])
-#class NewOptionForm(forms.Form):
-  #add branching somehow
-#  text = forms.CharField(max_length=50)
-#  display_text = forms.CharField(max_length=10)
-#  highlight = forms.CharField(max_length=2)
 class NewOptionForm(forms.ModelForm):
   class Meta:
     model = Option
