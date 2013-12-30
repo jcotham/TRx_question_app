@@ -11,6 +11,7 @@ urlpatterns = patterns('',
 
     #project/set
     url(r'^addProject/$', views.addProject, name='addProject'),
+    url(r'^deleteProject/(?P<project_index>\d+)/$', views.deleteProject, name='deleteProject'),
     url(r'^saveProject/(?P<project_index>\d+)/$', views.saveProject, name='saveProject'),
     url(r'^editProject/(?P<project_index>\d+)/$', views.editProject, name='editProject'),
 

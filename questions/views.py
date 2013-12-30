@@ -217,6 +217,18 @@ def chain(request):
   context["projects"] = QuestionProject.objects.all()
   return render(request, 'questions/chain.html', context)
 
+
+###################################  Delete Methods ##################################
+
+def deleteProject(request, project_index):
+  project = QuestionProject.objects.get(id = project_index)
+  project.delete()
+  return render(request, 'questions/chain.html')
+  
+
+
+####################  Forms          ####################
+
 class NewProjectForm(forms.Form):
   name = forms.CharField(max_length=100)
 class NewChainForm(forms.Form):
