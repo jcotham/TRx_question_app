@@ -34,22 +34,11 @@ def chainHome(request):
 
 
 def questionHome(request):
-  context = {}
-  if request.method == 'POST':
-    form = NewChainForm(request.POST)
-    if form.is_valid():
-      name = request.POST['name']
-      qc = QuestionChain(chain_name=name)
-      qc.save()
-
-  context["chains"] = QuestionChain.objects.all()
-  context["form"] = NewChainForm()
-  return render(request, 'questions/chainHome.html', context)
+  context = { "questions": Question.objects.all() }
+  return render(request, 'questions/questionHome.html', context)
 
 
-#pages seen from Home
-def existingProject(request):
-  return render(request, 'questions/existing.html')
+#################################### Add Pages  ######################################
 
 def addProject(request):
   if request.method == 'POST': # If the form has been submitted...
@@ -146,6 +135,8 @@ def addOptions(request, question_index, chain_index, project_index):
     options_formset = NewOptionsFormset()
   return render(request, 'questions/addOptions.html', { 'formset': options_formset })
 
+
+###################################  Save Pages     ##################################
 
 # Not finished. Receiving a list of (hopefully) sorted
 # question_chain ids that should be saved to the project_index
@@ -249,6 +240,11 @@ def deleteChain(request, chain_index):
   chain = QuestionChain.objects.get(id = chain_index)
   chain.delete()
   return chainHome(request)
+
+def deleteQuestion(request, question_index):
+  question = Question.objects.get(id = question_index)
+  question.delete()
+  return questionHome(request)
 
 ###################################  Forms          ##################################
 

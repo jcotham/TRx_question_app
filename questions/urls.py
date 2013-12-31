@@ -16,13 +16,14 @@ urlpatterns = patterns('',
 
     #chain
 
-    url(r'^editProject/(?P<project_index>\d+)/addChain/$', views.addChain, name='addChain'),
+    #url(r'^editProject/(?P<project_index>\d+)/addChain/$', views.addChain, name='addChain'),
     url(r'^deleteChain/(?P<chain_index>\d+)/$', views.deleteChain,name='deleteChain'),
     url(r'^editChain/(?P<chain_index>\d+)/$', views.editChain,name='editChain'),
     url(r'^saveChain/(?P<chain_index>\d+)/$', views.saveChain, name='saveChain'),
-    url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/$', views.editChain, name='editChain'),
+    #url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/$', views.editChain, name='editChain'),
 
     #question
+    url(r'^deleteQuestion/(?P<question_index>\d+)/$', views.deleteQuestion,name='deleteQuestion'),
     url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/addQuestion/$', views.addQuestion, name='addQuestion'),
     url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/editQuestion/(?P<question_index>\d+)/$', views.editQuestion, name='editQuestion'),
 
