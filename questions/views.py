@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from django.forms.formsets import formset_factory
-from questions.models import QuestionProject, QuestionChain, Question, Option, QuestionProjectToChain, ChainToQuestion
+from questions.models import QuestionProject, QuestionChain, Question, Option, QuestionProjectToChain, ChainToQuestion, SurgeryType
 
 #################################### Home Pages ######################################
 
@@ -41,6 +41,22 @@ def questionHome(request):
   return render(request, 'questions/questionHome.html', context)
 
 
+def surgeryHome(request):
+  context = {}
+  if request.method == 'POST':
+    print("in surgeryHome below POST")
+    form = NewSurgeryForm(request.POST)
+    if form.is_valid():
+      name = request.POST['name']
+      ob = SurgeryType(surgery_name=name)
+      ob.save()
+      print("just saved surgery name: ", name)
+
+  context["surgeries"] = SurgeryType.objects.all()
+  context["form"] = NewSurgeryForm()
+  context["menu_location"] = "surgery"
+  return render(request, 'questions/surgeryHome.html', context)
+
 #################################### Add Pages  ######################################
 
 def addProject(request):
@@ -75,6 +91,7 @@ def addChain(request, project_index):
 
 
 
+
 def addQuestion(request):
   return editQuestion(request=request, question_index=-1)
 
@@ -106,7 +123,7 @@ def editQuestion(request, question_index):
           print("saving option: " + str(option.display_text) + " belongs to: " + str(option.question.id))
 
         #redirect to options page unless fill in the blank
-        return HttpResponseRedirect("/questions/questions")
+        return HttpResponseRedirect("/questions/questionHome")
     else: # Updating existing question
       print("sup")
       # TODO: this
@@ -236,14 +253,22 @@ def deleteChain(request, chain_index):
 def deleteQuestion(request, question_index):
   question = Question.objects.get(id = question_index)
   question.delete()
-  return questionHome(request)
+  print("request path", request.path)
+  return HttpResponseRedirect('/questions/questionHome/')
+
+def deleteSurgery(request, surgery_index):
+  surgery = SurgeryType.objects.get(id = surgery_index)
+  surgery.delete()
+  return HttpResponseRedirect('/questions/surgeryHome/')
 
 ###################################  Forms          ##################################
 
 class NewProjectForm(forms.Form):
-  name = forms.CharField(max_length=100)
+  name = forms.CharField(max_length=50)
 class NewChainForm(forms.Form):
-  name = forms.CharField(max_length=100)
+  name = forms.CharField(max_length=50)
+class NewSurgeryForm(forms.Form):
+  name = forms.CharField(max_length=40)
 
 class NewQuestionForm(forms.ModelForm):
   class Meta:
@@ -261,7 +286,6 @@ class NewOptionForm(forms.ModelForm):
     widgets = {
         'text': forms.TextInput(attrs={'size':40}),
         'highlight': forms.Select(),
-        #'highlight': forms.TextInput(attrs={'size':3}),
     }
 
 
