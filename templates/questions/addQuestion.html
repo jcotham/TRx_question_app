@@ -10,7 +10,7 @@
 
   <div id="super_option">
     {% for option in options_formset.forms %}
-    <div {# ifequal option options_formset.forms.0 #}class="*******************option"{# endifequal #} style="background-color:grey;margin:10px">
+    <div {% ifequal option options_formset.forms.0 %}class="option"{% endifequal %} style="background-color:grey;margin:10px">
       {{ option.as_p }}
       <p style=""><a class="delete" href="#">Delete</a></p>
     </div>

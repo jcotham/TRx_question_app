@@ -250,6 +250,7 @@ class NewQuestionForm(forms.ModelForm):
     model= Question
     widgets = {
         'question_text': forms.Textarea(attrs={'cols':80, 'rows':2}),
+        'translation_text': forms.Textarea(attrs={'cols':80, 'rows':2}),
         'display_text': forms.TextInput(attrs={'size':30}),
     }
 
@@ -259,7 +260,8 @@ class NewOptionForm(forms.ModelForm):
     exclude = ['question']
     widgets = {
         'text': forms.TextInput(attrs={'size':40}),
-        'highlight': forms.TextInput(attrs={'size':3}),
+        'highlight': forms.Select(),
+        #'highlight': forms.TextInput(attrs={'size':3}),
     }
 
 

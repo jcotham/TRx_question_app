@@ -27,6 +27,7 @@ highlight_colors = (
 class Question(models.Model):
   question_type = models.CharField(max_length=5,choices=question_types)
   question_text = models.CharField(max_length=300)
+  translation_text = models.CharField(max_length=300)
   display_text = models.CharField(max_length=100)
   display_group = models.CharField(max_length=30)
 
@@ -38,7 +39,7 @@ class Option(models.Model):
   branch = models.ForeignKey(QuestionChain, blank=True, null=True)
   text = models.CharField(max_length=50)
   display_text = models.CharField(max_length=10)
-  highlight = models.CharField(max_length=2,choices=highlight_colors)
+  highlight = models.CharField(max_length=2,choices=highlight_colors, blank=True,null=True, default='n')
 
   def __str__(self):
     return self.text
@@ -58,5 +59,5 @@ class SurgeryType(models.Model):
 
 class JSONFiles(models.Model):
   name = models.CharField(max_length=40)
-  file_name = models.TextField()
+  file_text = models.TextField()
 
