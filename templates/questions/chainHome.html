@@ -1,3 +1,5 @@
+{% include "questions/questionsBase.html" %}
+
 <head>
   {% load staticfiles %}
   <link rel="stylesheet" type="text/css" href="{% static "TRx_question_app/dual_pane.css" %}" />
@@ -9,23 +11,26 @@
 </head>
 
 <body>
-  <div class="html_list">
+<div class="html_list">
     <h1>Chain Home</h1>
 
-    <div>
+	<div>
       <ul class="sortable">
         {% for chain in chains %}
-        <li onclick="update_selected(this);" chain_id="{{ chain.id }}">{{ chain.chain_name }}</a>
-      {% endfor %}
+			<li onclick="update_selected(this);" chain_id="{{ chain.id }}">{{ chain.chain_name }}</a>
+		{% endfor %}
     </ul>
   </div>
+
   <form action="{% url 'questions:chainHome' %}" method="post" style="display: inline"> {% csrf_token %}
     {{ form }}
     <input type="submit" value="add chain" />
   </form>
+
   <form onsubmit="return redirect_to_edit_page('/questions/editChain/', this, 'chain_id');" action="" method="get" style="display: inline"> {% csrf_token %}
     <input type="submit" value="edit chain" />
   </form>
+
   <form onsubmit="return confirm_and_delete('/questions/deleteChain/', this, 'chain_id');" action="" method="get" style="display: inline"> {% csrf_token %}
     <input type="submit" value="delete chain" />
   </form>

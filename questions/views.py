@@ -17,6 +17,7 @@ def projectHome(request):
 
   context["projects"] = QuestionProject.objects.all()
   context["form"] = NewProjectForm()
+  context["menu_location"] = "project"
   return render(request, 'questions/projectHome.html', context)
 
 def chainHome(request):
@@ -30,6 +31,7 @@ def chainHome(request):
 
   context["chains"] = QuestionChain.objects.all()
   context["form"] = NewChainForm()
+  context["menu_location"] = "chain"
   return render(request, 'questions/chainHome.html', context)
 
 
@@ -81,7 +83,7 @@ def addChain(request, project_index):
 
 # also editQuestion
 def addQuestion(request, chain_index, project_index):
-  
+
   NewOptionsFormset = formset_factory(NewOptionForm, max_num=15)
   if request.method == 'POST':
     print(request.POST)
@@ -203,7 +205,7 @@ def editProject(request,project_index):
   return render(request, 'questions/editProject.html', dict)
 
 
-def editChain(request,chain_index):
+def editChain(request,chain_index,project_index=0):
   chain_index = int(chain_index)
   dict = {}
   dict["chain_index"] = chain_index
@@ -216,12 +218,12 @@ def editChain(request,chain_index):
 
   dict["used_questions"] = sorted([e for e in questions if e.id in used_question_ids],
       key=lambda k: [f for f in chain_to_q if f.question_id == k.id][0].chain_index)
-  dict["unused_questions"] = sorted(list(set(questions)-set(dict["used_questions"])), key=lambda k: k.display_group) 
+  dict["unused_questions"] = sorted(list(set(questions)-set(dict["used_questions"])), key=lambda k: k.display_group)
 
   return render(request, 'questions/editChain.html', dict)
 
 def editQuestion(request,chain_index,project_index,question_index):
-  #form = NewQuestionForm({ 
+  #form = NewQuestionForm({
     return render(request, 'questions/editQuestion.html', { "project_index":project_index, "chain_index":chain_index, "question_index":question_index, "form":NewQuestionForm() })
 
 def editOptions(request,chain_index,project_index,question_index):
@@ -234,7 +236,7 @@ def deleteProject(request, project_index):
   project = QuestionProject.objects.get(id = project_index)
   project.delete()
   return projectHome(request)
-  
+
 
 def deleteChain(request, chain_index):
   chain = QuestionChain.objects.get(id = chain_index)

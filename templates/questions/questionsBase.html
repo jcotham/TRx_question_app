@@ -1,0 +1,12 @@
+{% load staticfiles %}
+<script src="{% static "TRx_question_app/jquery.sortable.min.js" %}"></script>
+<link href="{% static "TRx_question_app/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+
+<div id="nav_bar">
+	<ul class="nav nav-tabs">
+		<li {% if menu_location and menu_location == "home" %}class="active"{% endif %}><a href="{% url "questions:projectHome" %}">Home</a></li>
+		<li {% if menu_location and menu_location == "project" %}class="active"{% endif %}><a href="{% url "questions:projectHome" %}">Project Home</a></li>
+		<li {% if menu_location and menu_location == "chain" %}class="active"{% endif %}><a href="{% url "questions:chainHome" %}">Chain Home</a></li>
+		<li {% if menu_location and menu_location == "question" %}class="active"{% endif %}><a href="{% url "questions:chainHome" %}">Question Home</a></li>
+	</ul>
+</div>

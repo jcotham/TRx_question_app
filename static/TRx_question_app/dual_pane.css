@@ -11,6 +11,15 @@
     border: 1px solid black;
 }
 
+.double_pane_entry {
+    width: 98%;
+    height: 95%;
+    overflow-y: scroll;
+    border: 2px solid black;
+    float: left;
+    margin-left: 1%;
+}
+
 .pane_entry {
     width: 48%;
     height: 95%;
@@ -43,7 +52,7 @@
 .html_list ul {
     list-style: none;
     width: 80%;
-    height: 80%;
+    height: 70%;
     margin: 0px auto;
     text-align: center;
     overflow-y: scroll;

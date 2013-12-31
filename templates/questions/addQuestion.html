@@ -1,3 +1,4 @@
+{% include "questions/questionsBase.html" %}
 
 <!-- form for adding new project -->
 
@@ -97,7 +98,7 @@ $(document).ready(function() {
         updateElementIndex(this, 'form', total_form_count)
         $(this).val("");
       });
-      
+
       $("#id_" + 'form' + "-TOTAL_FORMS").val(total_form_count + 1);
 
       total_form_count += 1
