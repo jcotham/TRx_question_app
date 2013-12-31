@@ -48,6 +48,8 @@ function update_selected(new_selected) {
 function redirect_to_edit_page(target_url, form_source, target_id) {
   var currently_selected_item = $( "body" ).data("selected");
   if (currently_selected_item !== undefined) {
+    console.log(currently_selected_item)
+    
     form_source.action = target_url+(currently_selected_item.attributes[target_id].value)
       console.log(form_source.action);
     return true;
@@ -62,30 +64,6 @@ function confirm_and_delete(target_url, form_source, target_id) {
     redirect_to_edit_page(target_url,form_source, target_id);
   }
 }
-  /*
-     if (currently_selected_item !== undefined) {
-     $.ajax({
-     type: 'GET',
-     url: target_url+(currently_selected_item.attributes["chain_id"].value)
-     });
-     }
-     */
 
-/*
-// Saves used_chains whenever something changes
-$('#stack').sortable({
-axis: 'y',
-stop: function (event, ui) {
-var data = $(this).sortable('serialize');
-
-// POST to server using $.post or $.ajax
-$.ajax({
-data: data,
-type: 'POST',
-url: '/your/url/here'
-});
-}
-});
-*/
 
 

@@ -4,7 +4,8 @@ from django import forms
 from django.forms.formsets import formset_factory
 from questions.models import QuestionProject, QuestionChain, Question, Option, QuestionProjectToChain, ChainToQuestion
 
-# Create your views here.
+#################################### Home Pages ######################################
+
 def projectHome(request):
   context = {}
   if request.method == 'POST':
@@ -18,12 +19,21 @@ def projectHome(request):
   context["form"] = NewProjectForm()
   return render(request, 'questions/projectHome.html', context)
 
+def chainHome(request):
+  context = {}
+  if request.method == 'POST':
+    form = NewChainForm(request.POST)
+    if form.is_valid():
+      name = request.POST['name']
+      qc = QuestionChain(chain_name=name)
+      qc.save()
 
+  context["chains"] = QuestionChain.objects.all()
+  context["form"] = NewChainForm()
+  return render(request, 'questions/chainHome.html', context)
 
 
 #pages seen from Home
-def index(request):
-  return render(request, 'questions/index.html')
 def existingProject(request):
   return render(request, 'questions/existing.html')
 
@@ -159,6 +169,7 @@ def saveChain(request, chain_index):
 
   return HttpResponse('')
 
+###################################  Edit Pages     ##################################
 
 # TODO: Works, but hackish. Fix up later, when know how.
 def editProject(request,project_index):
@@ -187,7 +198,7 @@ def editProject(request,project_index):
   return render(request, 'questions/editProject.html', dict)
 
 
-def editChain(request,project_index,chain_index):
+def editChain(request,chain_index):
   chain_index = int(chain_index)
   dict = {}
   dict["chain_index"] = chain_index
@@ -220,6 +231,10 @@ def deleteProject(request, project_index):
   return projectHome(request)
   
 
+def deleteChain(request, chain_index):
+  chain = QuestionChain.objects.get(id = chain_index)
+  chain.delete()
+  return chainHome(request)
 
 ###################################  Forms          ##################################
 

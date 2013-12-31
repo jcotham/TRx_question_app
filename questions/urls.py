@@ -5,7 +5,8 @@ from questions import views
 
 urlpatterns = patterns('',
     url(r'^$', views.projectHome, name='projectHome'),
-    url(r'^index/$', views.index, name='index'),
+    url(r'^chain/$', views.chainHome, name='chainHome'),
+    url(r'^questions/$', views.questionHome, name='questionHome'),
 
     #project/set
     url(r'^addProject/$', views.addProject, name='addProject'),
@@ -14,7 +15,10 @@ urlpatterns = patterns('',
     url(r'^editProject/(?P<project_index>\d+)/$', views.editProject, name='editProject'),
 
     #chain
+
     url(r'^editProject/(?P<project_index>\d+)/addChain/$', views.addChain, name='addChain'),
+    url(r'^deleteChain/(?P<chain_index>\d+)/$', views.deleteChain,name='deleteChain'),
+    url(r'^editChain/(?P<chain_index>\d+)/$', views.editChain,name='editChain'),
     url(r'^saveChain/(?P<chain_index>\d+)/$', views.saveChain, name='saveChain'),
     url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/$', views.editChain, name='editChain'),
 
