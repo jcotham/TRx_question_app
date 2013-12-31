@@ -33,6 +33,20 @@ def chainHome(request):
   return render(request, 'questions/chainHome.html', context)
 
 
+def questionHome(request):
+  context = {}
+  if request.method == 'POST':
+    form = NewChainForm(request.POST)
+    if form.is_valid():
+      name = request.POST['name']
+      qc = QuestionChain(chain_name=name)
+      qc.save()
+
+  context["chains"] = QuestionChain.objects.all()
+  context["form"] = NewChainForm()
+  return render(request, 'questions/chainHome.html', context)
+
+
 #pages seen from Home
 def existingProject(request):
   return render(request, 'questions/existing.html')
