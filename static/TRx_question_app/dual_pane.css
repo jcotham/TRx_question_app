@@ -33,14 +33,21 @@
 	height: 100%;
     overflow-y: scroll;
 }
-
-.sortable li {
+/*
+.sortable old_li {
     background: grey;
     padding: 2px;
     margin: 5px;
     border: 0px;
     border-radius: 8px;
     text-align: left;
+}*/
+
+.sortable li {
+  background: lightgrey;
+  margin: 5px;
+  padding: 2px;
+  text-align: left;
 }
 
 

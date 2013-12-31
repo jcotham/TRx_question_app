@@ -7,6 +7,6 @@
 		<li {% if menu_location and menu_location == "home" %}class="active"{% endif %}><a href="{% url "questions:projectHome" %}">Home</a></li>
 		<li {% if menu_location and menu_location == "project" %}class="active"{% endif %}><a href="{% url "questions:projectHome" %}">Project Home</a></li>
 		<li {% if menu_location and menu_location == "chain" %}class="active"{% endif %}><a href="{% url "questions:chainHome" %}">Chain Home</a></li>
-		<li {% if menu_location and menu_location == "question" %}class="active"{% endif %}><a href="{% url "questions:chainHome" %}">Question Home</a></li>
+		<li {% if menu_location and menu_location == "questions" %}class="active"{% endif %}><a href="{% url "questions:questionHome" %}">Question Home</a></li>
 	</ul>
 </div>

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from django.forms.formsets import formset_factory
@@ -37,6 +37,7 @@ def chainHome(request):
 
 def questionHome(request):
   context = { "questions": Question.objects.all() }
+  context["menu_location"] = "questions"
   return render(request, 'questions/questionHome.html', context)
 
 
@@ -46,14 +47,9 @@ def addProject(request):
   if request.method == 'POST': # If the form has been submitted...
     form = NewProjectForm(request.POST) # A form bound to the POST data
     if form.is_valid(): # All validation rules pass
-     # Process the data in form.cleaned_data
-       # ...
-      #return HttpResponseRedirect('/thanks/') # Redirect after POST
       name = request.POST['name']
       qs = QuestionProject(project_name=name)
       qs.save()
-      #request.session['project_name'] = request.POST['name']
-      #request.session['index'] = qs.id
       return HttpResponseRedirect("/questions/editProject/%s/" % qs.id)#check if worked
   else:
     form = NewProjectForm() # An unbound form
@@ -70,10 +66,6 @@ def addChain(request, project_index):
       qc = QuestionChain(chain_name=name)
       qc.save()
 
-      # Project index?
-
-      #request.session['project_name'] = request.POST['name']
-      #request.session['index'] = qc.id
       return HttpResponseRedirect("/questions/editProject/%s/editChain/%s/" % (project_index, qc.id))#check if worked
   else:
     form = NewChainForm() # An unbound form
@@ -81,61 +73,61 @@ def addChain(request, project_index):
     'form': form,
   })
 
+
+
+def addQuestion(request):
+  return editQuestion(request=request, question_index=-1)
+
 # also editQuestion
-def addQuestion(request, chain_index, project_index):
+def editQuestion(request, question_index):
 
-  NewOptionsFormset = formset_factory(NewOptionForm, max_num=15)
-  if request.method == 'POST':
-    print(request.POST)
-    question_form = NewQuestionForm(request.POST)
-    options_formset = NewOptionsFormset(request.POST, request.FILES)
+  NewOptionsFormset = formset_factory(NewOptionForm, max_num=15, extra=0)
+  if request.method == 'POST': # receiving question info
+    if question_index == -1: # Saving new question
+      print(request.POST)
+      question_form = NewQuestionForm(request.POST)
+      options_formset = NewOptionsFormset(request.POST, request.FILES)
 
-    if question_form.is_valid() and options_formset.is_valid():
-      ques_type = request.POST['question_type']
-      ques_text = request.POST['question_text']
-      disp_text  = request.POST['display_text']
-      disp_group = request.POST['display_group']
+      if question_form.is_valid() and options_formset.is_valid():
+        ques_type = request.POST['question_type']
+        ques_text = request.POST['question_text']
+        disp_text  = request.POST['display_text']
+        disp_group = request.POST['display_group']
 
-      q = Question(question_text = ques_text, question_type = ques_type,
-                   display_text = disp_text, display_group = disp_group)
-      q.save()
-      print("saving question...")
+        q = Question(question_text = ques_text, question_type = ques_type,
+                     display_text = disp_text, display_group = disp_group)
+        q.save()
+        print("saving question...")
 
-      for form in options_formset.forms:
-        option = form.save(commit=False) #commit = false
-        option.question = q
-        option.save()
-        print("saving option: " + str(option.display_text) + " belongs to: " + str(option.question.id))
+        for form in options_formset.forms:
+          option = form.save(commit=False) #commit = false
+          option.question = q
+          option.save()
+          print("saving option: " + str(option.display_text) + " belongs to: " + str(option.question.id))
 
-      #redirect to options page unless fill in the blank
-      if (ques_type == "fib"):
-        return HttpResponseRedirect("/questions/editProject/%s/editChain/%s/" % (project_index, chain_index))
-      return HttpResponseRedirect("/questions/editProject/%s/editChain/%s/editQuestion/%s/addOptions" % (project_index, chain_index, q.id))
+        #redirect to options page unless fill in the blank
+        return HttpResponseRedirect("/questions/questions")
+    else: # Updating existing question
+      print("sup")
+      # TODO: this
 
-  else:
-    question_form = NewQuestionForm()
-    options_formset = NewOptionsFormset()
+
+  else: # render page
+    NewOptionsFormset = formset_factory(NewOptionForm, max_num=15, extra=1)
+    if question_index == -1:
+      question_form = NewQuestionForm()
+      options_formset = NewOptionsFormset()
+    else: ##** The else statement needs to load the forms with data from database
+      question = get_object_or_404(Question, id=question_index)
+      options =  Option.objects.all().filter(question=question).values()
+      question_form = NewQuestionForm(instance=question)
+      print("options ===> ", options)
+      options_formset = NewOptionsFormset(initial=options)
   return render(request, 'questions/addQuestion.html', {
     'question_form': question_form,
     'options_formset': options_formset,
   })
 
-def addOptions(request, question_index, chain_index, project_index):
-  #stellarchariot.com/blog/2011/02/dynamically-add-form-to-formset-using-javascript-and-django/
-  NewOptionsFormset = formset_factory(NewOptionForm, max_num=15) #not requiring formsetj
-  if request.method == 'POST':
-    #form = NewOptionForm(request.POST)
-    options_formset = NewOptionsFormset(request.POST, request.FILES)
-    #if form.is_valid() and formset.is_valid():
-    if options_formset.is_valid():
-      for option_form in options_formset.forms:
-        option = option_form.save()
-        option.question = question_index
-        option.save()
-      return HttpResponseRedirect("/questions/editProject/%s/editChain/%s/" % (project_index, chain_index))
-  else:
-    options_formset = NewOptionsFormset()
-  return render(request, 'questions/addOptions.html', { 'formset': options_formset })
 
 
 ###################################  Save Pages     ##################################
@@ -222,9 +214,7 @@ def editChain(request,chain_index,project_index=0):
 
   return render(request, 'questions/editChain.html', dict)
 
-def editQuestion(request,chain_index,project_index,question_index):
-  #form = NewQuestionForm({
-    return render(request, 'questions/editQuestion.html', { "project_index":project_index, "chain_index":chain_index, "question_index":question_index, "form":NewQuestionForm() })
+
 
 def editOptions(request,chain_index,project_index,question_index):
   return render(request, 'questions/editOptions.html', { "project_index": project_index, "chain_index": chain_index, "question_index": question_index })
@@ -254,13 +244,27 @@ class NewProjectForm(forms.Form):
   name = forms.CharField(max_length=100)
 class NewChainForm(forms.Form):
   name = forms.CharField(max_length=100)
-class NewQuestionForm(forms.Form):
-  question_text = forms.CharField(max_length=300, required=True)
-  display_text = forms.CharField(max_length=100, required=True)
-  display_group = forms.CharField(max_length=30, required=True)
-  question_type = forms.ChoiceField(choices=[('fib','fill-in-the-blank'),
-    ('yn','yes/no'),('cb','check box'),('cbb','check box with blank')])
+
+class NewQuestionForm(forms.ModelForm):
+  class Meta:
+    model= Question
+    widgets = {
+        'question_text': forms.Textarea(attrs={'cols':80, 'rows':2}),
+        'display_text': forms.TextInput(attrs={'size':30}),
+    }
+
 class NewOptionForm(forms.ModelForm):
   class Meta:
     model = Option
     exclude = ['question']
+    widgets = {
+        'text': forms.TextInput(attrs={'size':40}),
+        'highlight': forms.TextInput(attrs={'size':3}),
+    }
+
+
+
+###################################  Miscellaneus   ##################################
+
+def generateJSON(request, project_index):
+  print("Generating JSON...")

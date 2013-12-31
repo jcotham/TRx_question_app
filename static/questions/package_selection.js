@@ -37,7 +37,7 @@ function save_order(target_url,target_id) {
 function update_selected(new_selected) {
   var previously_selected_item = $( "body" ).data("selected");
   if (previously_selected_item !== undefined && previously_selected_item !== new_selected) {
-    previously_selected_item.style.backgroundColor = 'grey';
+    previously_selected_item.style.backgroundColor = 'lightgrey';
   }
 
   new_selected.style.backgroundColor = 'green';

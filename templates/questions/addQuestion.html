@@ -10,7 +10,7 @@
 
   <div id="super_option">
     {% for option in options_formset.forms %}
-    <div class="option" style="background-color:grey;margin:10px">
+    <div {# ifequal option options_formset.forms.0 #}class="*******************option"{# endifequal #} style="background-color:grey;margin:10px">
       {{ option.as_p }}
       <p style=""><a class="delete" href="#">Delete</a></p>
     </div>
@@ -46,20 +46,7 @@ $(document).ready(function() {
     return false;
   }
 
-  /*
-  function jsonify_forms() {
-    var return_json = []
-    $(".option").each(function(i,e) {
-      $(e, ':input').each(function(i2,e2,i,e) {
-        return_json[
-      }(i,e)
-    })
-    console.log(return_json.length)
-    return return_json; // to_json? Or fine as is?
-  }
-  */
-
-  $('#submit').click(function() {
+  /*$('#submit').click(function() {
     $('.option').each(function(i,e) {
       // Buggy boo
       $(e, ':p:input').each(function(i,e){
@@ -74,13 +61,13 @@ $(document).ready(function() {
         if ($(e).attr('id')) $(e).attr("id").replace(/d+/, toString(i))
         if ($(e).attr('name')) $(e).attr("name").replace(/d+/, toString(i))
         console.log("whoopie");
-      })(i));*/
+      })(i));
     });
 
     // Error checking here. Return false and make error pop up if something's hanky
     return true;
   });
-
+*/
 
   //$('#id_question_type').change(function() {
   $('.delete').click(delete_callback);

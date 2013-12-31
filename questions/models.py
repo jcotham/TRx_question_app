@@ -19,6 +19,11 @@ question_types = (
     ('cb', 'check box'),
     ('cbb', 'check box with blank'),)
 
+highlight_colors = (
+    ('n', 'no highlight'),
+    ('r', 'red'),
+    ('b', 'bold'),)
+
 class Question(models.Model):
   question_type = models.CharField(max_length=5,choices=question_types)
   question_text = models.CharField(max_length=300)
@@ -30,10 +35,10 @@ class Question(models.Model):
 
 class Option(models.Model):
   question = models.ForeignKey(Question)
-  branch = models.ForeignKey(QuestionChain)
+  branch = models.ForeignKey(QuestionChain, blank=True, null=True)
   text = models.CharField(max_length=50)
   display_text = models.CharField(max_length=10)
-  highlight = models.CharField(max_length=2)
+  highlight = models.CharField(max_length=2,choices=highlight_colors)
 
   def __str__(self):
     return self.text
@@ -48,4 +53,10 @@ class QuestionProjectToChain(models.Model):
   question_chain = models.ForeignKey(QuestionChain)
   stack_index = models.IntegerField()
 
+class SurgeryType(models.Model):
+  surgery_name = models.CharField(max_length=30, unique=True)
+
+class JSONFiles(models.Model):
+  name = models.CharField(max_length=40)
+  file_name = models.TextField()
 

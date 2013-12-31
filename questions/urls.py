@@ -24,11 +24,15 @@ urlpatterns = patterns('',
 
     #question
     url(r'^deleteQuestion/(?P<question_index>\d+)/$', views.deleteQuestion,name='deleteQuestion'),
-    url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/addQuestion/$', views.addQuestion, name='addQuestion'),
-    url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/editQuestion/(?P<question_index>\d+)/$', views.editQuestion, name='editQuestion'),
+    url(r'^editQuestion/(?P<question_index>\d+)/$', views.editQuestion,name='editQuestion'),
+    url(r'^editQuestion/$', views.addQuestion,name='addQuestion'),
+    #url(r'^editQuestion/$', views.editQuestion,name='addQuestion'),
+    
+    #url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/addQuestion/$', views.addQuestion, name='addQuestion'),
+    #url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/editQuestion/(?P<question_index>\d+)/$', views.editQuestion, name='editQuestion'),
 
     #options:
-    url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/editQuestion/(?P<question_index>\d+)/addOptions/$', views.addOptions, name='addOptions'),
-    url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/editQuestion/(?P<question_index>\d+)/editOptions/$', views.editOptions, name='editOptions'),
+    #url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/editQuestion/(?P<question_index>\d+)/addOptions/$', views.addOptions, name='addOptions'),
+    #url(r'^editProject/(?P<project_index>\d+)/editChain/(?P<chain_index>\d+)/editQuestion/(?P<question_index>\d+)/editOptions/$', views.editOptions, name='editOptions'),
 
 )
