@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block add_form %}
-  <form action="addChain/" method="post"> {% csrf_token %}
+  <form action="addChain/" method="post" style="display:inline"> {% csrf_token %}
           {{ form }}
           <!-- {{ form.as_p }} -->
           <input type="submit" value="add chain" />

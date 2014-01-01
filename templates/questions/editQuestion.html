@@ -9,7 +9,7 @@
 <script src="{% static "TRx_question_app/jquery.sortable.min.js" %}"></script>
 
 <form action="" method="post"> {% csrf_token %}
-  {{ form.as_p }}
+  {{ form.as_table }}
   <input type="submit" value="Save" />
 </form>
 

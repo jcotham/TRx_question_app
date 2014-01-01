@@ -30,7 +30,7 @@
     <form action="{% url 'questions:addQuestion' %}" method="get" style="display: inline"> {% csrf_token %}
     <input type="submit" value="add question" />
   </form>
-  <form onsubmit="return redirect_to_edit_page('/questions/editQuestion/', this, 'question_id');" action="" method="get" style="display: inline"> {% csrf_token %}
+  <form onsubmit="return redirect_to_edit_page('editQuestion/', this, 'question_id');" action="" method="get" style="display: inline"> {% csrf_token %}
     <input type="submit" value="edit question" />
   </form>
   <form onsubmit="return confirm_and_delete('/questions/deleteQuestion/', this, 'question_id');" action="" method="get" style="display: inline"> {% csrf_token %}

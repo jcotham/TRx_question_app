@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block add_form %}
-  <form action="addQuestion/" method="get"> {% csrf_token %}
+  <form action="addQuestion/" method="get" style="display: inline"> {% csrf_token %}
           {{ form }}
           <input type="submit" value="add question" />
   </form>

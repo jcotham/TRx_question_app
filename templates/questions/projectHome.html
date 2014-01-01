@@ -34,7 +34,7 @@
   <form onsubmit="return redirect_to_edit_page('/questions/demoProject/', this, 'project_id');" action="" method="get" style="display: inline"> {% csrf_token %}
     <input type="submit" value="demo project" />
   </form>
-  <form onsubmit="return redirect_to_edit_page('/questions/generateFile/', this, 'project_id');" action="" method="get" style="display: inline"> {% csrf_token %}
+  <form onsubmit="return redirect_to_edit_page('/questions/fileHome/', this, 'project_id');" action="" method="post" style="display: inline"> {% csrf_token %}
     <input type="submit" value="generate file" />
   </form>
 

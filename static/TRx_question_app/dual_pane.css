@@ -43,6 +43,13 @@
     text-align: left;
 }*/
 
+
+.sortable  {
+  margin: 0;
+  padding: 0;
+}
+
+
 .sortable li {
   background: lightgrey;
   margin: 5px;
@@ -58,7 +65,7 @@
 
 .html_list ul {
     list-style: none;
-    width: 80%;
+    width: 700px; /*80%; */
     height: 70%;
     margin: 0px auto;
     text-align: center;

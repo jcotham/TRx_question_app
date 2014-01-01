@@ -36,12 +36,16 @@ function save_order(target_url,target_id) {
 // stored in variables that were referenced by both the css and this
 function update_selected(new_selected) {
   var previously_selected_item = $( "body" ).data("selected");
-  if (previously_selected_item !== undefined && previously_selected_item !== new_selected) {
-    previously_selected_item.style.backgroundColor = 'lightgrey';
+  if (previously_selected_item !== new_selected) {
+      $( "body" ).data("selected", new_selected);
+      new_selected.style.backgroundColor = 'green';
+  } else if (previously_selected_item == new_selected) {
+      $( "body" ).removeData("selected");
   }
 
-  new_selected.style.backgroundColor = 'green';
-  $( "body" ).data("selected", new_selected);
+  if (previously_selected_item !== undefined) {
+    previously_selected_item.style.backgroundColor = 'lightgrey';
+  }
 }
 
 
@@ -50,7 +54,7 @@ function redirect_to_edit_page(target_url, form_source, target_id) {
   if (currently_selected_item !== undefined) {
     console.log(currently_selected_item)
     
-    form_source.action = target_url+(currently_selected_item.attributes[target_id].value)
+    form_source.action = target_url+(currently_selected_item.attributes[target_id].value)+'/'
       console.log(form_source.action);
     return true;
   } else {
